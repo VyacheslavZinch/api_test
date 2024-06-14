@@ -1,6 +1,8 @@
 mod auth;
+mod auth1;
 mod db_requests;
 mod models;
+mod mongo;
 mod schema;
 
 use db_requests::Repos::{AircraftRepository, BoardingPass};
@@ -12,6 +14,7 @@ use rocket::{
     serde::json::{json, Value},
 };
 use rocket_sync_db_pools::database;
+use crate::auth1::TokenAuth;
 
 use crate::auth::BasicAuth;
 
@@ -45,7 +48,7 @@ async fn view_aircraft(id: String, _auth: BasicAuth, db: DbConn) -> Result<Value
 }
 
 #[get("/boardpasses")]
-async fn get_bpasses(_auth: BasicAuth, db: DbConn) -> Result<Value, Custom<Value>> {
+async fn get_bpasses(_auth: TokenAuth, db: DbConn) -> Result<Value, Custom<Value>> {
     db.run(|c| {
         BoardingPass::get_all_datas(c, 30000)
             .map(|boarding_passes| json!(boarding_passes))
