@@ -7,6 +7,7 @@ The project uses :
         - PostgreSQL database 
         - ORM Diesel 
         - Rocket Web-framework 
+        - Mongo DB
         
 
 The database was taken from this resource (including description) - https://edu.postgrespro.ru/bookings.pdf
