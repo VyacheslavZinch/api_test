@@ -1,21 +1,21 @@
+use dotenvy::Error;
 use futures::stream::TryStreamExt;
+use mongodb::bson::oid::ObjectId;
 use mongodb::options::FindOneOptions;
-use mongodb::{bson::doc, Collection, options::FindOptions};
+use mongodb::{bson::doc, options::FindOptions, Collection};
 use mongodb::{options::ClientOptions, Client};
+use rocket::log::private::kv::Source;
 use serde::{Deserialize, Serialize};
 use std::{
     any::Any,
     env,
     thread::{self, JoinHandle},
 };
-use dotenvy::Error;
-use mongodb::bson::oid::ObjectId;
-use rocket::log::private::kv::Source;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Token(String);
 
-pub async fn is_valid_token(token: &str) -> bool{
+pub async fn is_valid_token(token: &str) -> bool {
     dotenvy::dotenv().expect(".env error");
 
     let connection = match env::var("MONGO_URL") {
@@ -31,20 +31,17 @@ pub async fn is_valid_token(token: &str) -> bool{
 
     if doc_exists(&tokens_collections, token).await.expect("err") {
         return true;
-    }else {
+    } else {
         return false;
     }
-
 }
 
 async fn doc_exists(collection: &Collection<Document>, id: &str) -> Result<bool, Error> {
-    let object_id = ObjectId::parse_str(id.clone());
+    let object_id = ObjectId::parse_str(id);
     let filter = doc! {"_id": id};
     let count = collection.count_documents(filter, None).await;
 
     Ok(count.unwrap() > 0)
-
-
 }
 
 struct Document(String);

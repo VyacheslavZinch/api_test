@@ -18,13 +18,21 @@ pub struct NewAircraft {
     pub range: i32,
 }
 
+#[derive(Deserialize, Insertable)]
+#[diesel(table_name = crate::schema::seats)]
+pub struct NewSeats {
+    pub aircraft_code: String,
+    pub seat_no: String,
+    pub fare_conditions: String,
+}
+
 #[derive(Queryable, Selectable, Serialize)]
 #[diesel(table_name = crate::schema::seats)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Seats {
-    aircraft_code: String,
-    seat_no: String,
-    fare_conditions: String,
+    pub aircraft_code: String,
+    pub seat_no: String,
+    pub fare_conditions: String,
 }
 
 #[derive(Queryable, Selectable, Serialize)]
