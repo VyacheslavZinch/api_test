@@ -1,6 +1,8 @@
-use crate::mongo::is_valid_token;
 use rocket::http::Status;
 use rocket::request::{FromRequest, Outcome, Request};
+
+use crate::mongo::is_valid_token;
+
 pub struct BasicAuth {
     pub username: String,
     pub password: String,
@@ -78,3 +80,5 @@ impl<'r> FromRequest<'r> for TokenAuth {
         }
     }
 }
+
+

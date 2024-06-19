@@ -1,16 +1,9 @@
+use std::env;
+
 use dotenvy::Error;
-use futures::stream::TryStreamExt;
-use mongodb::bson::oid::ObjectId;
-use mongodb::options::FindOneOptions;
-use mongodb::{bson::doc, options::FindOptions, Collection};
-use mongodb::{options::ClientOptions, Client};
-use rocket::log::private::kv::Source;
+use mongodb::{bson::doc, Collection};
+use mongodb::Client;
 use serde::{Deserialize, Serialize};
-use std::{
-    any::Any,
-    env,
-    thread::{self, JoinHandle},
-};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Token(String);
@@ -37,7 +30,6 @@ pub async fn is_valid_token(token: &str) -> bool {
 }
 
 async fn doc_exists(collection: &Collection<Document>, id: &str) -> Result<bool, Error> {
-    let object_id = ObjectId::parse_str(id);
     let filter = doc! {"_id": id};
     let count = collection.count_documents(filter, None).await;
 

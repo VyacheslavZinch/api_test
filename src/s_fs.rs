@@ -38,13 +38,13 @@ pub mod server_fs {
 
                         if _data.is_dir() == true {
                             let element = FileInfo {
-                                name: (entry.file_name().to_str().unwrap()).to_string(),
+                                name: entry.file_name().to_str().unwrap().to_string(),
                                 file_type: "dir".to_string(),
                             };
                             result.push(element)
                         } else {
                             let element = FileInfo {
-                                name: (entry.file_name().to_str().unwrap()).to_string(),
+                                name: entry.file_name().to_str().unwrap().to_string(),
                                 file_type: "file".to_string(),
                             };
                             result.push(element)

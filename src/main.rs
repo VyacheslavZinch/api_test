@@ -77,8 +77,7 @@ async fn get_boardpass(id: String, _auth: TokenAuth, db: DbConn) -> Result<Value
 async fn create_boardpass(
     _auth: TokenAuth,
     db: DbConn,
-    new_board_pass: Json<NewBoardingPasses>,
-) -> Result<Value, Custom<Value>> {
+    new_board_pass: Json<NewBoardingPasses>) -> Result<Value, Custom<Value>> {
     db.run(|c| {
         BoardingPass::create(c, new_board_pass.into_inner())
             .map(|boarding_passes| json!(boarding_passes))
@@ -91,8 +90,7 @@ async fn create_boardpass(
 async fn del_boardpass(
     _auth: TokenAuth,
     db: DbConn,
-    id: String,
-) -> Result<status::NoContent, Custom<Value>> {
+    id: String) -> Result<status::NoContent, Custom<Value>> {
     db.run(move |c| {
         BoardingPass::delete(c, id)
             .map(|_| status::NoContent)
@@ -113,8 +111,7 @@ async fn get_seats(_auth: TokenAuth, db: DbConn) -> Result<Value, Custom<Value>>
 async fn create_new_seats(
     _auth: TokenAuth,
     db: DbConn,
-    new_seat: Json<NewSeats>,
-) -> Result<Value, Custom<Value>> {
+    new_seat: Json<NewSeats>) -> Result<Value, Custom<Value>> {
     db.run(|c| {
         Seat::create(c, new_seat.into_inner())
             .map(|seats| json!(seats))
@@ -137,8 +134,6 @@ fn error_401() -> Value {
     json!("INCORRECT TOKEN")
 }
 
-//TODO: Comments
-//TODO: Tests
 //TODO: PUT-requests
 #[rocket::main]
 async fn main() {
@@ -158,7 +153,7 @@ async fn main() {
                 get_files_info,
             ],
         )
-        .mount("/file", FileServer::from(relative!("files")))
+        .mount("/file", FileServer::from("/home/vaclav/api/files"))
         .register("/", catchers![error_401, error_404])
         .launch()
         .await;

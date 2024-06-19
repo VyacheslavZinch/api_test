@@ -121,7 +121,7 @@ pub mod Repos {
 
         pub fn get_all_datas(c: &mut PgConnection, limit: i64) -> QueryResult<Vec<Seats>> {
             seats::table
-                .order(seats::aircraft_code.desc())
+                .order(aircraft_code.desc())
                 .limit(limit)
                 .load::<Seats>(c)
         }
