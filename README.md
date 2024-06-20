@@ -12,11 +12,11 @@
 
         Routes:
            >>  GET /seats
-           >>  POST /seats application/json
+           >>  POST /seats         application/json
            >>  GET /files
            >>  GET /aircrafts
            >>  GET /boardpasses
-           >>  POST /boardpasses application/json
+           >>  POST /boardpasses   application/json
            >>  GET /aircrafts/<id>
            >>  GET /boardpasses/<id>
            >>  DELETE /boardpasses/<id>
