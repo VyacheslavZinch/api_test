@@ -23,10 +23,10 @@
            >>  GET /file/<sample.file>
 
         Rocket limits:
-            form = "512 kB"
-            json = "10 MiB"
-            msgpack = "20 MiB"
-            "file/jpg" = "50 MiB"
+            form = 512 kB
+            json = 10 MiB
+            msgpack = 20 MiB
+            "file/jpg" = 50 MiB
 
 
         Authorization by token. 
